@@ -1,5 +1,6 @@
-const { readCommand } = require('../util');
+const { readCommand, resultOutput } = require('../util');
 const { requirements } = require('../../.trybe/requirements.json');
+const { resultCriteria } = require('../constants');
 
 describe(requirements[5].description, () => {
   it("O avaliador deve executar o comando no arquivo 'command06.dc'", async () => {
@@ -7,8 +8,8 @@ describe(requirements[5].description, () => {
     expect(result).not.toBeNull();
     expect(result).not.toContain('Error');
 
-    expect(result).toContain('1.21.3-alpine: Pulling from library/nginx');
-    expect(result).toContain('sha256:1ff1364a1c4332341fc0a854820f1d50e90e11bb0b93eb53b47dc5e10c680116');
+    expect(result).toContain('1.21.3-alpine');
+    expect(result).toContain('library/nginx');
     expect(result).toContain('Pull complete');
     expect(result).toContain('Status: Downloaded');
 
@@ -19,19 +20,29 @@ describe(requirements[5].description, () => {
 
 describe(requirements[6].description, () => {
   it("O avaliador deve executar o comando no arquivo 'command07.dc'", async () => {
-    const { stdout: result } = await readCommand(7);
-    expect(result).not.toBeNull();
-    expect(result).not.toContain('Error');
+    const { stdout: containerID } = await readCommand(7);
+    expect(containerID).not.toBeNull();
+    expect(containerID).not.toContain('Error');
 
-    expect(result).toHaveLength(64);
+    expect(containerID).toHaveLength(64);
 
     const { stdout: containerCounter } = await readCommand(false, 'docker ps -aq | wc -l', false);
     expect(containerCounter).toStrictEqual('1');
 
     const { stdout: commandValidation } = await
-    readCommand(false, `docker inspect --format="{{(index .Name)}};{{(index .Id)}};{{(index .Image)}};{{(index .HostConfig.PortBindings)}};" ${result}`, false);
+    readCommand(false, `docker inspect --format="${resultCriteria}" ${containerID}`, false);
     expect(commandValidation)
-      .toStrictEqual(`/02images;${result};sha256:513f9a9d8748b25cdb0ec6f16b4523af7bba216a6bf0f43f70af75b4cf7cb780;map[80/tcp:[map[HostIp: HostPort:3000]]];`);
+      .toStrictEqual(
+        resultOutput({
+          containerName: "02images",
+          containerID,
+          imageName: "nginx",
+          imageTag: "1.21.3-alpine",
+          stateStatus: "running",
+          stateRunning: true,
+          hostConfigPortBindings: "map[80/tcp:[map[HostIp: HostPort:3000]]]"
+        })
+      );
   });
   it("O avaliador tentará acessar a página padrão 'localhost:3000' para validar o processo", async () => {
     const { stdout: result } = await readCommand(false, 'curl -X GET http://localhost:3000', false);

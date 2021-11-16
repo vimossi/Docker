@@ -18,6 +18,7 @@ Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu
 - [Boas vindas ao repositório do projeto Docker Todo List!](#boas-vindas-ao-repositório-do-projeto-docker-todo-list)
 - [Habilidades](#habilidades)
 - [Entregáveis](#entregáveis)
+    - [Sobre o avaliador](#sobre-o-avaliador)
   - [O que deverá ser desenvolvido](#o-que-deverá-ser-desenvolvido)
   - [Desenvolvimento](#desenvolvimento)
   - [Data de Entrega](#data-de-entrega)
@@ -210,7 +211,7 @@ Para **"entregar"** seu projeto, siga os passos a seguir:
 * Vá até a página **DO SEU** _Pull Request_, adicione a label de _"code-review"_ e marque seus colegas
   * No menu à direita, clique no _link_ **"Labels"** e escolha a _label_ **code-review**
   * No menu à direita, clique no _link_ **"Assignees"** e escolha **o seu usuário**
-  * No menu à direita, clique no _link_ **"Reviewers"** e digite `students`, selecione o time `tryber/students-sd-013-b`
+  * No menu à direita, clique no _link_ **"Reviewers"** e digite `students`, selecione o time `tryber/students-sd-0x`
 
 Se ainda houver alguma dúvida sobre como entregar seu projeto, [aqui tem um video explicativo](https://vimeo.com/362189205).
 
@@ -326,8 +327,9 @@ Não  utilize a função `.only` ou `.skip` após o describe. Os testes precisam
 
    - **O que será testado:** 
     - Se existe um arquivo `Dockerfile` em `./docker/todo-app/back-end/`:
-      - O Dockerfile deve rodar uma imagem `node` com a versão `alpine`;
-        - Lembre-se de consultar o README do `todo-app` para validar os requisitos da aplicação; 
+      - O Dockerfile deve rodar uma imagem `node` utilizando a versão `14` ou mais;
+        - Recomenda-se o uso da variante `-alpine`, pois ela é otimizada para desempenho;
+        - Lembre-se de consultar o README do `todo-app` para validar os requisitos da aplicação.  
       - Deve estar com a porta `3001` exposta;
       - Deve adicionar o arquivo `node_modules.tar.gz` a imagem;
       - Deve copiar todos os arquivos da pasta `back-end` para a imagem;
@@ -340,8 +342,9 @@ Não  utilize a função `.only` ou `.skip` após o describe. Os testes precisam
  
   - **O que será testado:** 
     - Se existe um arquivo `Dockerfile` em `./docker/todo-app/front-end/`:
-      - O `Dockerfile` deve rodar uma imagem `node` com a versão `alpine`;
-        - Lembre-se de consultar o README do `todo-app` para validar os requisitos da aplicação; 
+      - O `Dockerfile` pode rodar uma imagem `node` utilizando a versão `14` ou mais;
+        - Recomenda-se o uso da variante `-alpine`, pois ela é otimizada para desempenho;
+        - Lembre-se de consultar o README do `todo-app` para validar os requisitos da aplicação. 
       - Deve estar com a porta `3000` exposta;
       - Deve adicionar o arquivo `node_modules.tar.gz` a imagem, de maneira que ele seja extraído dentro do `container`;
       - Deve copiar todos os arquivos da pasta `front-end` para a imagem;
@@ -398,7 +401,7 @@ Não  utilize a função `.only` ou `.skip` após o describe. Os testes precisam
 
 Ao finalizar e submeter o projeto, não se esqueça de avaliar sua experiência preenchendo o formulário. Leva menos de 3 minutos!
 
-Link: [Form](https://be-trybe.typeform.com/to/ZTeR4IbH?typeform-source=github.com#cohort_name=Turma%203)
+Link: [FORMULÁRIO DE AVALIAÇÃO DE PROJETO](https://bit.ly/2OfLJPn)
 
 O avaliador automático não necessariamente avalia seu projeto na ordem em que os requisitos aparecem no readme. Isso acontece para deixar o processo de avaliação mais rápido. Então, não se assuste se isso acontecer, ok?
 

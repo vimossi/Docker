@@ -80,5 +80,5 @@ jobs:
         uses: ./.github/actions/store-evaluation
         with:
           evaluation-data: ${{ steps.jest_eval.outputs.result }}
-          environment: production
+          environment: staging
           pr-number: ${{ github.event.inputs.pr_number }}
