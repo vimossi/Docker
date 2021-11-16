@@ -7,7 +7,7 @@ const {
 } = require('./constants');
 
 global.beforeAll(async () => {
-  await exec(`docker rm -fv ${evalId}`)
+  await exec(`docker rm -fv $(docker ps -qaf name=trybe-eval-)`)
     .catch(() => true);
 
   await exec([
@@ -24,5 +24,6 @@ global.beforeAll(async () => {
 });
 
 global.afterAll(async () => {
-  await exec(`docker rm -fv ${evalId}`);
+  await exec(`docker rm -fv $(docker ps -qaf name=trybe-eval-)`)
+    .catch(() => true);
 });

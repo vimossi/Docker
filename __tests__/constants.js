@@ -7,4 +7,12 @@ module.exports = {
   challengesFolder: resolve('docker'),
   containerWorkDir: `/${evalId}`,
   defaultDelay: 10000,
+  resultCriteria: "{{(index .Name)}};"+
+                  "{{(index .Id)}};"+
+                  "{{(index .Config.Image)}};"+
+                  "{{(index .State.Status)}};"+
+                  "{{(index .State.Running)}};"+
+                  "{{(index .HostConfig.PortBindings)}}",
+  composeTries: 5,
+  one: 1
 };

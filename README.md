@@ -18,6 +18,7 @@ Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu
 - [Boas vindas ao repositório do projeto Docker Todo List!](#boas-vindas-ao-repositório-do-projeto-docker-todo-list)
 - [Habilidades](#habilidades)
 - [Entregáveis](#entregáveis)
+    - [Sobre o avaliador](#sobre-o-avaliador)
   - [O que deverá ser desenvolvido](#o-que-deverá-ser-desenvolvido)
   - [Desenvolvimento](#desenvolvimento)
   - [Data de Entrega](#data-de-entrega)
@@ -326,8 +327,9 @@ Não  utilize a função `.only` ou `.skip` após o describe. Os testes precisam
 
    - **O que será testado:** 
     - Se existe um arquivo `Dockerfile` em `./docker/todo-app/back-end/`:
-      - O Dockerfile deve rodar uma imagem `node` com a versão `alpine`;
-        - Lembre-se de consultar o README do `todo-app` para validar os requisitos da aplicação; 
+      - O Dockerfile deve rodar uma imagem `node` utilizando a versão `14` ou mais;
+        - Recomenda-se o uso da variante `-alpine`, pois ela é otimizada para desempenho;
+        - Lembre-se de consultar o README do `todo-app` para validar os requisitos da aplicação.  
       - Deve estar com a porta `3001` exposta;
       - Deve adicionar o arquivo `node_modules.tar.gz` a imagem;
       - Deve copiar todos os arquivos da pasta `back-end` para a imagem;
@@ -340,8 +342,9 @@ Não  utilize a função `.only` ou `.skip` após o describe. Os testes precisam
  
   - **O que será testado:** 
     - Se existe um arquivo `Dockerfile` em `./docker/todo-app/front-end/`:
-      - O `Dockerfile` deve rodar uma imagem `node` com a versão `alpine`;
-        - Lembre-se de consultar o README do `todo-app` para validar os requisitos da aplicação; 
+      - O `Dockerfile` pode rodar uma imagem `node` utilizando a versão `14` ou mais;
+        - Recomenda-se o uso da variante `-alpine`, pois ela é otimizada para desempenho;
+        - Lembre-se de consultar o README do `todo-app` para validar os requisitos da aplicação. 
       - Deve estar com a porta `3000` exposta;
       - Deve adicionar o arquivo `node_modules.tar.gz` a imagem, de maneira que ele seja extraído dentro do `container`;
       - Deve copiar todos os arquivos da pasta `front-end` para a imagem;

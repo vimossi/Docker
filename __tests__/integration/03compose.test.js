@@ -1,5 +1,5 @@
 const { readCommand } = require('../util');
-const { evalId } = require('../constants');
+const { evalId, one, composeTries } = require('../constants');
 const { requirements } = require('../../.trybe/requirements.json');
 
 describe(requirements[11].description, () => {
@@ -59,15 +59,26 @@ describe(requirements[11].description, () => {
     expect(activeContainerCounter).toStrictEqual('3');
   });
   it('O avaliador deve aguardar os logs dos resultados do teste de saúde do "todo-app"', async () => {
-    const result = await new Promise((res) => {
+    let round = one;
+    const resolveBeforeMaxTries = await new Promise((res) => {
       const logCommand = setInterval(async () => {
-        const { stderr: testOutput } = await readCommand(false, 'docker logs $(docker ps -aqf name=todotests_1)');
-        if (testOutput.includes('7 passed, 7 total')) {
+        const testAprove = (pass) => {
           clearInterval(logCommand);
-          res(true);
+          res(pass);
         }
+
+        const { stderr: testOutput } = await readCommand(false, 'docker logs $(docker ps -aqf name=todotests_1)');
+
+        if (testOutput.includes('7 passed, 7 total')) {
+          return testAprove(true);
+        }
+        
+        if(round === composeTries) {
+          return testAprove(false);
+        }
+        round += one;
       }, 15000);
     });
-    expect(result).toStrictEqual(true);
+    expect(resolveBeforeMaxTries).toStrictEqual(true);
   });
 });

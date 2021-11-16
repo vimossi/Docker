@@ -50,7 +50,8 @@ const readCommand = async (
     return rej(err);
   }
 })
-  .then((command) => (number !== false ? validate(command.trim()) : command.trim()))
+  .then((command) =>
+    (number !== false && !custom) ? validate(command.trim()) : command.trim())
   .then(async (command) => {
     const { stdout: current, stderr } = await exec(`docker exec ${evalId} /bin/sh -c '${command}'`);
 
@@ -70,9 +71,28 @@ const readCommand = async (
     };
   });
 
+const resultOutput = ({
+  containerName, 
+  containerID, 
+  imageName, 
+  imageTag, 
+  stateStatus, 
+  stateRunning,
+  hostConfigPortBindings = "map[]",
+}) => `/${[
+  containerName, 
+  containerID, 
+  imageName+':'+imageTag, 
+  stateStatus, 
+  stateRunning, 
+  hostConfigPortBindings]
+    .join(";")
+    .replace(/;$/,'')}`;
+
 module.exports = {
   delay,
   exec,
   readCommand,
   validate,
+  resultOutput,
 };

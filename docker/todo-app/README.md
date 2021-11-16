@@ -22,6 +22,7 @@ Uma verdadeira *mão-na-roda* para acompanhar seu progresso!
 
 - [NodeJS LTS](https://github.com/nodesource/distributions/blob/master/README.md#debinstall) (14 ou mais).
   - O Sistema Operacional [deve suportar o NodeJS](https://github-com.translate.goog/nodejs/build/issues/2168?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt-BR&_x_tr_pto=nui).
+  - Aplicações como o `create-react-app` [requerem essa versão mínima](https://pt-br.reactjs.org/docs/create-a-new-react-app.html#create-react-app) para funcionar corretamente
 
 
 #### Instalação

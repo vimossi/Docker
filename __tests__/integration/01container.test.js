@@ -1,5 +1,13 @@
-const { readCommand } = require('../util');
+const { readCommand, resultOutput } = require('../util');
 const { requirements } = require('../../.trybe/requirements.json');
+const { resultCriteria } = require('../constants');
+
+let resultHeader= {
+  containerName: "01container",
+  containerID: "",
+  imageName: "alpine",
+  imageTag: "3.12",
+};
 
 describe(requirements[0].description, () => {
   it("O avaliador deve executar o comando no arquivo 'command01.dc'", async () => {
@@ -9,19 +17,33 @@ describe(requirements[0].description, () => {
 
     expect(result).toHaveLength(64);
 
+    resultHeader.containerID = result;
+
     const { stdout: commandValidation } = await
-    readCommand(false, `docker inspect --format="{{(index .Name)}};{{(index .Id)}};{{(index .Image)}}" ${result}`, false);
+      readCommand(false, `docker inspect --format="${resultCriteria}" ${resultHeader.containerID}`, false);
     expect(commandValidation)
-      .toStrictEqual(`/01container;${result};sha256:48b8ec4ed9ebc29a5c6178a5267c3a9e12fb5e9923fc7bad3b494b9a6a491b68`);
+      .toStrictEqual(
+        resultOutput({
+          ...resultHeader,
+          stateStatus: "created",
+          stateRunning: false
+        })
+      );
   });
 });
 
 describe(requirements[1].description, () => {
   it("O avaliador deve executar o comando no arquivo 'command02.dc'", async () => {
     const { stdout: createdValidation } = await
-      readCommand(false, 'docker inspect --format="{{(index .Name)}};{{(index .Image)}};{{(index .State.Status)}};{{(index .State.Running)}}" 01container', false);
+      readCommand(false, `docker inspect --format="${resultCriteria}" 01container`, false);
     expect(createdValidation)
-      .toStrictEqual('/01container;sha256:48b8ec4ed9ebc29a5c6178a5267c3a9e12fb5e9923fc7bad3b494b9a6a491b68;created;false');
+      .toStrictEqual(
+        resultOutput({
+          ...resultHeader,
+          stateStatus: "created",
+          stateRunning: false
+        })  
+      );
     
     const { stdout: result } = await readCommand(2);
     expect(result).not.toBeNull();
@@ -30,14 +52,23 @@ describe(requirements[1].description, () => {
     expect(result).toContain('01container');
 
     const { stdout: startValidation } = await
-      readCommand(false, 'docker inspect --format="{{(index .Name)}};{{(index .Image)}};{{(index .State.Status)}};{{(index .State.Running)}}" 01container', false);
+      readCommand(false, `docker inspect --format="${resultCriteria}" 01container`, false);
     expect(startValidation)
-      .toStrictEqual('/01container;sha256:48b8ec4ed9ebc29a5c6178a5267c3a9e12fb5e9923fc7bad3b494b9a6a491b68;running;true');
+      .toStrictEqual(
+        resultOutput({
+          ...resultHeader,
+          stateStatus: "running",
+          stateRunning: true
+        })  
+      );
   });
 });
 
 describe(requirements[2].description, () => {
   it("O avaliador deve executar o comando no arquivo 'command03.dc'", async () => {
+    const { stdout: filterValidation } = await readCommand(3, '| wc -l', false);
+    expect(filterValidation).toStrictEqual('2');
+    
     const { stdout: result } = await readCommand(3);
     expect(result).not.toBeNull();
     expect(result).not.toContain('Error');
